@@ -3,6 +3,6 @@
 using namespace std;
 
 int main() {
-    HTMLConverter testCase("/workspaces/ProfMark_Down/tests/MarkdownFile.md", "/workspaces/ProfMark_Down/tests/HTMLFile.html");
+    HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
     return 0;
 }
