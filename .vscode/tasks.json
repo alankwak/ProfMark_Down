@@ -4,7 +4,7 @@
     {
       "label": "build",
       "type": "shell",
-      "command": "g++ -g -Wall -o program *.cpp",
+      "command": "g++ -g -Wall -o program src/*.cpp",
       "group": {
         "kind": "build",
         "isDefault": true
