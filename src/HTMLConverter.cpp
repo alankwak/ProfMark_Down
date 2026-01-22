@@ -39,7 +39,16 @@ void HTMLConverter::readInFile(string inPut, string outPath){
 }
 
 void HTMLConverter::parseMultiline(string& line) {
-    
+    vector < vector <int> > indexVals;
+    //itterating through and grabbing indexs of markdown symbols
+    for(int i = 0; i < line.length(); i++){
+        for(int j = 0 ; j < multiLine.size() ; j++){
+            if(line.substr(i, multiLine[j].size()) == multiLine[j]){
+                vector <int> 
+                indexVals.push_back({i, i + multiLine[j].size()});
+            }
+        }
+    }
 }
 
 void HTMLConverter::parseInline(string& line) {
