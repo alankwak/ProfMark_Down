@@ -4,22 +4,28 @@
 using namespace std;
 
 HTMLConverter::HTMLConverter(string inPutFile, string outPutFile){
-    readInFile(inPutFile);
+    readInFile(inPutFile, outPutFile);
 }
 
 //read in file
-void HTMLConverter::readInFile(string path){
-    ifstream file(path);
+void HTMLConverter::readInFile(string inPut, string outPath){
+    ifstream inPutFile(inPut);
+    ofstream outPutFile(outPath);
 
-    if(!file.is_open()) {
-        cerr << "Error: could not open file: " << path << endl;
+
+    if(!inPutFile.is_open()) {
+        cerr << "Error: could not open file: " << inPut << endl;
     }
 
     string line;
-    while(getline(file, line)){
+    while(getline(inPutFile, line)){
         //where we do things
         cout << line << endl;
+
+        outPutFile << line;
     }
-    file.close();
+
+    inPutFile.close();
+    outPutFile.close();
 
 }
