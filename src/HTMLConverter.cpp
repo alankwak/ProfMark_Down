@@ -39,7 +39,7 @@ void HTMLConverter::readInFile(string inPut, string outPath){
 }
 
 void HTMLConverter::parseMultiline(string& line) {
-
+    
 }
 
 void HTMLConverter::parseInline(string& line) {
