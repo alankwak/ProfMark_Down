@@ -11,12 +11,12 @@ class HTMLConverter{
     HTMLConverter(string inPutFile, string outPutFile);
     void readInFile(string inPut, string outPath);
     private:
-        vector <string> markdownStart = {"###### ", "##### ", "#### ", "### ", "## ", "# ",  "\n---\n", "\n\n"};
+        vector <string> markdownStart = {"###### ", "##### ", "#### ", "### ", "## ", "# ",  "---", "\n\n"};
         vector <string> markdownAnywhere = {"**", "*", "![", "]", "["};
         vector <string> multiLine = {"**", "*", "\n\n"};
-        unordered_map <string, string> htmlStart = {{"*", "<i>"}, {"**", "<strong>"}, {"# ","<h1>"}, {"## ", "<h2>"}, {"### ", "<h3>"}, {"#### ", "<h4>"}, {"##### ", "<h5>"}, {"###### ", "<h6>"}, {"\n\n", "<p>"}, {"\n---\n", "<hr>"}};
-        unordered_map <string, string> htmlEnd = {{"*", "</i>"}, {"**", "</strong>"}, {"# ","</h1>"}, {"## ", "</h2>"}, {"### ", "</h3>"}, {"#### ", "</h4>"}, {"##### ", "</h5>"}, {"###### ", "</h6>"}, {"\n\n", "</p>"}, {"\n---\n", "</hr>"}};
+        unordered_map <string, string> htmlStart = {{"*", "<i>"}, {"**", "<strong>"}, {"# ","<h1>"}, {"## ", "<h2>"}, {"### ", "<h3>"}, {"#### ", "<h4>"}, {"##### ", "<h5>"}, {"###### ", "<h6>"}, {"\n\n", "<p>"}, {"---", "<hr"}};
+        unordered_map <string, string> htmlEnd = {{"*", "</i>"}, {"**", "</strong>"}, {"# ","</h1>"}, {"## ", "</h2>"}, {"### ", "</h3>"}, {"#### ", "</h4>"}, {"##### ", "</h5>"}, {"###### ", "</h6>"}, {"\n\n", "</p>"}, {"---", "/>"}};
 
         void parseMultiline(string& line);
-        void parseInline(string& line);
+        string parseInline(string& line);
 };

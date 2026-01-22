@@ -1,10 +1,12 @@
 #include <iostream>
 #include <fstream>
+#include <stack>
 #include "HTMLConverter.hpp"
 using namespace std;
 
 HTMLConverter::HTMLConverter(string inPutFile, string outPutFile){
-    //
+    string s = "### This **is** a *header*";
+    cout << parseInline(s);
     readInFile(inPutFile, outPutFile);
 }
 
@@ -42,6 +44,49 @@ void HTMLConverter::parseMultiline(string& line) {
 
 }
 
-void HTMLConverter::parseInline(string& line) {
-    
+string HTMLConverter::parseInline(string& line) {
+    stack<string> symbolStack;
+    string newLine;
+
+    int startingIndex = 0;
+
+    for(string& symbol : markdownStart) {
+        if(symbol.length() <= line.length() && line.substr(0, symbol.length()) == symbol) {
+            newLine += htmlStart[symbol];
+            symbolStack.push(symbol);
+            startingIndex = symbol.length();
+            break;
+        }
+    }
+
+    for(int i = startingIndex; i < line.length(); i++) {
+        bool found = false;
+        for(string& symbol : markdownAnywhere) {
+            if(i + symbol.length() <= line.length() && line.substr(i, symbol.length()) == symbol) {
+                if(!symbolStack.empty() && symbolStack.top() == symbol) {
+                    // ending symbol
+                    newLine += htmlEnd[symbol];
+                    symbolStack.pop();
+                } else {
+                    // starting symbol
+                    newLine += htmlStart[symbol];
+                    symbolStack.push(symbol);
+                }
+                i += symbol.length()-1;
+                found = true;
+                break;
+            }
+        }
+
+        if(!found) {
+            newLine += line[i];
+        }
+    }
+
+    while(!symbolStack.empty()) {
+        newLine += htmlEnd[symbolStack.top()];
+        symbolStack.pop();
+    }
+
+    return newLine;
 }
