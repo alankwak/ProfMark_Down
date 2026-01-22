@@ -24,7 +24,7 @@ TEST_CASE("ph")
 
         string desiredOutput = "This is a sentence.This is another sentence";
         string output = getFileContent("./tests/HTMLFile.html");
-        
+
         REQUIRE(output == desiredOutput);
     }
 
