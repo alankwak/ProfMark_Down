@@ -1,3 +1,5 @@
+#define CATCH_CONFIG_NO_POSIX_SIGNALS
+#define CATCH_CONFIG_MAIN
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -9,11 +11,6 @@ void clearFile(string filePath);
 void writeToFile(string filePath, string content);
 string getFileContent(string filePath);
 
-// int main() {
-//     HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
-//     return 0;
-// }
-
 TEST_CASE("ph")
 {
     clearFile("./tests/MarkdownFile.md");
@@ -24,13 +21,16 @@ TEST_CASE("ph")
         string md = "This is a sentence.\nThis is another sentence";
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
-        cout << getFileContent("./tests/HTMLFile.html");
+
+        string desiredOutput = "This is a sentence.This is another sentence";
+        string output = getFileContent("./tests/HTMLFile.html");
+        
+        REQUIRE(output == desiredOutput);
     }
 
     SECTION("Bold")
     {
         string md = "This is some **bold** text.";
-
     }
 }
 
