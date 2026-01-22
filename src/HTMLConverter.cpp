@@ -18,9 +18,16 @@ void HTMLConverter::readInFile(string inPut, string outPath){
         cerr << "Error: could not open file: " << inPut << endl;
     }
 
+    // set up bools
+
     string line;
     while(getline(inPutFile, line)){
         //where we do things
+
+        parseMultiline(line);
+
+        parseInline(line);
+
         cout << line << endl;
 
         outPutFile << line;
@@ -29,4 +36,12 @@ void HTMLConverter::readInFile(string inPut, string outPath){
     inPutFile.close();
     outPutFile.close();
 
+}
+
+void HTMLConverter::parseMultiline(string& line) {
+
+}
+
+void HTMLConverter::parseInline(string& line) {
+    
 }
