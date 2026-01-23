@@ -36,16 +36,16 @@ TEST_CASE("ph")
 
 void clearFile(string filePath) {
     ofstream file(filePath);
-    if(!file) {
-        cout << "Error opening file: " << filePath << endl;
+    if(!file.is_open()) {
+        cerr << "Error opening file: " << filePath << endl;
     }
     file.close();
 }
 
 void writeToFile(string filePath, string content) {
     ofstream file(filePath);
-    if(!file) {
-        cout << "Error opening file: " << filePath << endl;
+    if(!file.is_open()) {
+        cerr << "Error opening file: " << filePath << endl;
         return;
     }
     file << content;
@@ -54,8 +54,8 @@ void writeToFile(string filePath, string content) {
 
 string getFileContent(string filePath) {
     ifstream file(filePath);
-    if(!file) {
-        cout << "Error opening file: " << filePath << endl;
+    if(!file.is_open()) {
+        cerr << "Error opening file: " << filePath << endl;
         return "Error opening file";
     }
     ostringstream ss;
