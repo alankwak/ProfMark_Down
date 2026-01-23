@@ -45,19 +45,19 @@ void HTMLConverter::parseMultiline(string& line) {
     for (int i = 0; i < line.length(); i++) {
         for (int j = 0; j < multiLine.size(); j++) {
             // Individualizes each vector entry for simplified searching
-            string md = multiLine[j];
+            string markDown = multiLine[j];
 
-            if (line.substr(i, md.size()) == md) {
+            if (line.substr(i, markDown.size()) == markDown) {
 
                 // Decide whether this is a start or end tag
-                bool isStart = (symbolCount[md] % 2 == 0);
-                string replacement = isStart ? htmlStart[md] : htmlEnd[md];
+                bool isStart = (symbolCount[markDown] % 2 == 0);
+                string replacement = isStart ? htmlStart[markDown] : htmlEnd[markDown];
 
                 // Replace markdown with HTML
-                line.replace(i, md.size(), replacement);
+                line.replace(i, markDown.size(), replacement);
 
                 // Update counter
-                symbolCount[md]++;
+                symbolCount[markDown]++;
 
                 // Move symbolCount forward to avoid re-processing previously added HTML
                 i += replacement.length() - 1;
