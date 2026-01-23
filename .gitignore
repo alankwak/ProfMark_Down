@@ -15,3 +15,7 @@ cmake-build-*/
 
 # macOS
 .DS_Store
+
+# test files
+tests/HTMLFile.html
+tests/MarkdownFile.md
