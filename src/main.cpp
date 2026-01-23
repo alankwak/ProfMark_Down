@@ -11,11 +11,8 @@ void clearFile(string filePath);
 void writeToFile(string filePath, string content);
 string getFileContent(string filePath);
 
-TEST_CASE("ph")
+TEST_CASE("Inline")
 {
-    clearFile("./tests/MarkdownFile.md");
-    clearFile("./tests/HTMLFile.html");
-    
     SECTION("Transfer text")
     {
         string md = "This is a sentence.\nThis is another sentence";
@@ -31,6 +28,109 @@ TEST_CASE("ph")
     SECTION("Bold")
     {
         string md = "This is some **bold** text.";
+
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        string desiredOutput = "This is some <strong>bold</strong> text.";
+
+        REQUIRE(output == desiredOutput);
+    }
+
+    SECTION("Italics")
+    {
+        string md = "This is some *italicized* text.";
+
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        string desiredOutput = "This is some <i>italicized</i> text.";
+
+        REQUIRE(output == desiredOutput);
+    }
+
+    SECTION("Headers")
+    {
+        // h1
+        string md = "# This is an h1.";
+
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        string desiredOutput = "<h1>This is an h1.</h1>";
+
+        REQUIRE(output == desiredOutput);
+
+        // h2
+        md = "## This is an h2.";
+
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase2("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+        output = getFileContent("./tests/HTMLFile.html");
+
+        desiredOutput = "<h2>This is an h2.</h2>";
+
+        REQUIRE(output == desiredOutput);
+
+        // h3
+        md = "### This is an h3.";
+
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase3("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+        output = getFileContent("./tests/HTMLFile.html");
+
+        desiredOutput = "<h3>This is an h3.</h3>";
+
+        REQUIRE(output == desiredOutput);
+
+        // h4
+        md = "#### This is an h4.";
+
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase4("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+        output = getFileContent("./tests/HTMLFile.html");
+
+        desiredOutput = "<h4>This is an h4.</h4>";
+
+        REQUIRE(output == desiredOutput);
+
+        // h5
+        md = "##### This is an h5.";
+
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase5("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+        output = getFileContent("./tests/HTMLFile.html");
+
+        desiredOutput = "<h5>This is an h5.</h5>";
+
+        REQUIRE(output == desiredOutput);
+
+        // h6
+        md = "###### This is an h6.";
+
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase6("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+        output = getFileContent("./tests/HTMLFile.html");
+
+        desiredOutput = "<h6>This is an h6.</h6>";
+
+        REQUIRE(output == desiredOutput);
+    }
+
+    SECTION("Horizontal line")
+    {
+        string md = "---";
+
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        string desiredOutput = "<hr/>";
+
+        REQUIRE(output == desiredOutput);
     }
 }
 
