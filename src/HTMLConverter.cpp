@@ -39,13 +39,29 @@ void HTMLConverter::readInFile(string inPut, string outPath){
 }
 
 void HTMLConverter::parseMultiline(string& line) {
-    vector < vector <int> > indexVals;
-    //itterating through and grabbing indexs of markdown symbols
-    for(int i = 0; i < line.length(); i++){
-        for(int j = 0 ; j < multiLine.size() ; j++){
-            if(line.substr(i, multiLine[j].size()) == multiLine[j]){
-                vector <int> 
-                indexVals.push_back({i, i + multiLine[j].size()});
+    unordered_map <string, int> symbolCount;
+
+    // Itterating through and grabbing indexs of markdown symbols
+    for (int i = 0; i < line.length(); i++) {
+        for (int j = 0; j < multiLine.size(); j++) {
+            // Individualizes each vector entry for simplified searching
+            string md = multiLine[j];
+
+            if (line.substr(i, md.size()) == md) {
+
+                // Decide whether this is a start or end tag
+                bool isStart = (symbolCount[md] % 2 == 0);
+                string replacement = isStart ? htmlStart[md] : htmlEnd[md];
+
+                // Replace markdown with HTML
+                line.replace(i, md.size(), replacement);
+
+                // Update counter
+                symbolCount[md]++;
+
+                // Move symbolCount forward to avoid re-processing previously added HTML
+                i += replacement.length() - 1;
+                break;
             }
         }
     }
