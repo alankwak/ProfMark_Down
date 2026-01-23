@@ -64,6 +64,19 @@ TEST_CASE("Inline")
         REQUIRE(output == desiredOutput);
     }
 
+    SECTION("Inline code")
+    {
+        string md = "This is some `inline code`.";
+
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        string desiredOutput = "This is some <code>inline code</code>.";
+
+        REQUIRE(output == desiredOutput);
+    }
+
     SECTION("Headers")
     {
         // h1
