@@ -12,7 +12,7 @@ class HTMLConverter{
     void readInFile(string inPut, string outPath);
     private:
         vector <string> markdownStart = {"###### ", "##### ", "#### ", "### ", "## ", "# ",  "---", "\n\n"};
-        vector <string> markdownAnywhere = {"**", "*", "![", "]", "[", "`"};
+        vector <string> markdownAnywhere = {"**", "*", "[<", ">]", "`"};
         vector <string> multiLine = {"**", "*", "\n\n"};
         unordered_map <string, string> htmlStart = {
             {"*", "<i>"}, 
@@ -26,7 +26,8 @@ class HTMLConverter{
             {"\n\n", "<p>"}, 
             {"---", "<hr/>"},
             {"`", "<code>"},
-            {"[<", "<mark>"}
+            {"[<", "<mark>"},
+            {">]", "<mark>"}
         };
         unordered_map <string, string> htmlEnd = {
             {"*", "</i>"}, 
@@ -40,6 +41,7 @@ class HTMLConverter{
             {"\n\n", "</p>"}, 
             {"---", ""},
             {"`", "</code>"},
+            {"[<", "</mark>"},
             {">]", "</mark>"}
         };
 

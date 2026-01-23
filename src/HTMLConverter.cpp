@@ -5,8 +5,6 @@
 using namespace std;
 
 HTMLConverter::HTMLConverter(string inPutFile, string outPutFile){
-    string s = "### This **is** a *header* and this is some `code`.";
-    cout << parseInline(s) << endl;
     readInFile(inPutFile, outPutFile);
 }
 
@@ -28,7 +26,7 @@ void HTMLConverter::readInFile(string inPut, string outPath){
 
         parseMultiline(line);
 
-        parseInline(line);
+        line = parseInline(line);
 
         outPutFile << line;
     }
@@ -76,7 +74,7 @@ string HTMLConverter::parseInline(string& line) {
     for(string& symbol : markdownStart) {
         if(symbol.length() <= line.length() && line.substr(0, symbol.length()) == symbol) {
             newLine += htmlStart[symbol];
-            symbolStack.push(symbol);
+            symbolStack.push(htmlEnd[symbol]);
             startingIndex = symbol.length();
             break;
         }
@@ -86,14 +84,14 @@ string HTMLConverter::parseInline(string& line) {
         bool found = false;
         for(string& symbol : markdownAnywhere) {
             if(i + symbol.length() <= line.length() && line.substr(i, symbol.length()) == symbol) {
-                if(!symbolStack.empty() && symbolStack.top() == symbol) {
+                if(!symbolStack.empty() && symbolStack.top() == htmlEnd[symbol]) {
                     // ending symbol
                     newLine += htmlEnd[symbol];
                     symbolStack.pop();
                 } else {
                     // starting symbol
                     newLine += htmlStart[symbol];
-                    symbolStack.push(symbol);
+                    symbolStack.push(htmlEnd[symbol]);
                 }
                 i += symbol.length()-1;
                 found = true;
@@ -107,7 +105,7 @@ string HTMLConverter::parseInline(string& line) {
     }
 
     while(!symbolStack.empty()) {
-        newLine += htmlEnd[symbolStack.top()];
+        newLine += symbolStack.top();
         symbolStack.pop();
     }
 
