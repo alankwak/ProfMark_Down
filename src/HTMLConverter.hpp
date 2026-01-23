@@ -12,10 +12,36 @@ class HTMLConverter{
     void readInFile(string inPut, string outPath);
     private:
         vector <string> markdownStart = {"###### ", "##### ", "#### ", "### ", "## ", "# ",  "---", "\n\n"};
-        vector <string> markdownAnywhere = {"**", "*", "![", "]", "["};
+        vector <string> markdownAnywhere = {"**", "*", "![", "]", "[", "`"};
         vector <string> multiLine = {"**", "*", "\n\n"};
-        unordered_map <string, string> htmlStart = {{"*", "<i>"}, {"**", "<strong>"}, {"# ","<h1>"}, {"## ", "<h2>"}, {"### ", "<h3>"}, {"#### ", "<h4>"}, {"##### ", "<h5>"}, {"###### ", "<h6>"}, {"\n\n", "<p>"}, {"---", "<hr"}};
-        unordered_map <string, string> htmlEnd = {{"*", "</i>"}, {"**", "</strong>"}, {"# ","</h1>"}, {"## ", "</h2>"}, {"### ", "</h3>"}, {"#### ", "</h4>"}, {"##### ", "</h5>"}, {"###### ", "</h6>"}, {"\n\n", "</p>"}, {"---", "/>"}};
+        unordered_map <string, string> htmlStart = {
+            {"*", "<i>"}, 
+            {"**", "<strong>"}, 
+            {"# ","<h1>"}, 
+            {"## ", "<h2>"}, 
+            {"### ", "<h3>"}, 
+            {"#### ", "<h4>"}, 
+            {"##### ", "<h5>"}, 
+            {"###### ", "<h6>"}, 
+            {"\n\n", "<p>"}, 
+            {"---", "<hr/>"},
+            {"`", "<code>"},
+            {"[<", "<mark>"}
+        };
+        unordered_map <string, string> htmlEnd = {
+            {"*", "</i>"}, 
+            {"**", "</strong>"}, 
+            {"# ","</h1>"}, 
+            {"## ", "</h2>"}, 
+            {"### ", "</h3>"}, 
+            {"#### ", "</h4>"}, 
+            {"##### ", "</h5>"}, 
+            {"###### ", "</h6>"}, 
+            {"\n\n", "</p>"}, 
+            {"---", ""},
+            {"`", "</code>"},
+            {">]", "</mark>"}
+        };
 
         void parseMultiline(string& line);
         string parseInline(string& line);

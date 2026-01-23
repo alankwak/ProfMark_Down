@@ -5,8 +5,8 @@
 using namespace std;
 
 HTMLConverter::HTMLConverter(string inPutFile, string outPutFile){
-    string s = "### This **is** a *header*";
-    cout << parseInline(s);
+    string s = "### This **is** a *header* and this is some `code`.";
+    cout << parseInline(s) << endl;
     readInFile(inPutFile, outPutFile);
 }
 
@@ -29,8 +29,6 @@ void HTMLConverter::readInFile(string inPut, string outPath){
         parseMultiline(line);
 
         parseInline(line);
-
-        cout << line << endl;
 
         outPutFile << line;
     }
