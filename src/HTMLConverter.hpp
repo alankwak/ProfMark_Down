@@ -52,4 +52,5 @@ class HTMLConverter{
         bool inListUn = false;
         int ordList = 1;
 
+        void specialCases(string& line);
 };

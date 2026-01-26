@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <regex>
 #include <stack>
 #include "HTMLConverter.hpp"
 using namespace std;
@@ -133,6 +134,8 @@ string HTMLConverter::parseInline(string& line) {
         symbolStack.pop();
     }
 
+    specialCases(newLine);
+
     return newLine;
 }
 
@@ -178,3 +181,11 @@ void HTMLConverter::lists(string& line){
     }
 }
 
+ void HTMLConverter::specialCases(string& line) {
+    //Handle highlight case
+    line = regex_replace(line, regex(R"(\[<([^=]+)>\])"), "<mark>$1</mark>");
+    //Handle image case
+    line = regex_replace(line, regex(R"(!\[([^\]]*)\]\(([^\)]+)\))"), "<img src=\"$2\" alt=\"$1\">");
+    //Hand link case
+    line = regex_replace(line, regex(R"(\[([^\]]+)\]\(([^)]+)\))"), "<a href=\"$2\">$1</a>");
+}
