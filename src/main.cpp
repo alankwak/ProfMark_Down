@@ -66,6 +66,10 @@ TEST_CASE("ph")
 
         REQUIRE(output == desiredOutput);
     }
+
+    SECTION("MultiLineBoth"){
+        
+    }
 }
 
 void clearFile(string filePath) {

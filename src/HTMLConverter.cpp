@@ -39,7 +39,6 @@ void HTMLConverter::readInFile(string inPut, string outPath){
 }
 
 void HTMLConverter::parseMultiline(string& line) {
-    unordered_map <string, int> symbolCount;
 
     // Itterating through and grabbing indexs of markdown symbols
     for (int i = 0; i < line.length(); i++) {
@@ -50,14 +49,18 @@ void HTMLConverter::parseMultiline(string& line) {
             if (line.substr(i, markDown.size()) == markDown) {
 
                 // Decide whether this is a start or end tag
-                bool isStart = (symbolCount[markDown] % 2 == 0);
-                string replacement = isStart ? htmlStart[markDown] : htmlEnd[markDown];
+                string replacement;
+                if (symbolCount[markDown] % 2 == 0) {
+                    replacement = htmlStart[markDown];
+                } else {
+                    replacement = htmlEnd[markDown];
+                }
 
                 // Replace markdown with HTML
                 line.replace(i, markDown.size(), replacement);
 
                 // Update counter
-                symbolCount[markDown]++;
+                symbolCount[markDown] += 1;
 
                 // Move symbolCount forward to avoid re-processing previously added HTML
                 i += replacement.length() - 1;
