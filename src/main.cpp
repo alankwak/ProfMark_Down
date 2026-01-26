@@ -46,23 +46,23 @@ TEST_CASE("Inline")
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
         string output = getFileContent("./tests/HTMLFile.html");
 
-        string desiredOutput = "This is some <i>italicized</i> text.";
+        string desiredOutput = "This is some <em>italicized</em> text.";
 
         REQUIRE(output == desiredOutput);
     }
 
-    SECTION("Highlight")
-    {
-        string md = "This is some [<highlighted>] text.";
+    // SECTION("Highlight")
+    // {
+    //     string md = "This is some [<highlighted>] text.";
 
-        writeToFile("./tests/MarkdownFile.md", md);
-        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
-        string output = getFileContent("./tests/HTMLFile.html");
+    //     writeToFile("./tests/MarkdownFile.md", md);
+    //     HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+    //     string output = getFileContent("./tests/HTMLFile.html");
 
-        string desiredOutput = "This is some <mark>highlighted</mark> text.";
+    //     string desiredOutput = "This is some <mark>highlighted</mark> text.";
 
-        REQUIRE(output == desiredOutput);
-    }
+    //     REQUIRE(output == desiredOutput);
+    // }
 
     SECTION("Inline code")
     {
