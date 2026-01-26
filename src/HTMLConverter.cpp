@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <regex>
 #include <stack>
 #include "HTMLConverter.hpp"
 using namespace std;
@@ -111,3 +112,6 @@ string HTMLConverter::parseInline(string& line) {
 
     return newLine;
 }
+ string HTMLConverter::specialCases(string& line) {
+    regex image()
+ }

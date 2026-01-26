@@ -47,4 +47,5 @@ class HTMLConverter{
 
         void parseMultiline(string& line);
         string parseInline(string& line);
+        string specialCases(string& line);
 };
