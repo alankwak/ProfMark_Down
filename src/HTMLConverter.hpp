@@ -45,4 +45,5 @@ class HTMLConverter{
         int paraCount = 1;
         void parsePara(string& line);
         string parseInline(string& line);
+        void specialCases(string& line);
 };

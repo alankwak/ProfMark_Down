@@ -25,6 +25,45 @@ TEST_CASE("Inline")
         REQUIRE(output == desiredOutput);
     }
 
+    SECTION("Image")
+    {
+        string md = "This is an ![image](image/link.png).";
+
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        string desiredOutput = "This is an <img src=\"image/link.png\" alt=\"image\">.";
+
+        REQUIRE(output == desiredOutput);
+    }
+
+    SECTION("Link")
+    {
+        string md = "This is a [link](https://google.com).";
+
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        string desiredOutput = "This is a <a href=\"https://google.com\">link</a>.";
+
+        REQUIRE(output == desiredOutput);
+    }
+
+    SECTION("Highlight")
+    {
+        string md = "This is some [<highlighted text>], maybe in code.";
+
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        string desiredOutput = "This is some <mark>highlighted text</mark>, maybe in code.";
+
+        REQUIRE(output == desiredOutput);
+    }
+
     SECTION("Bold")
     {
         string md = "This is some **bold** text.";
