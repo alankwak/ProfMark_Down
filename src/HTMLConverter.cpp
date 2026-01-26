@@ -116,7 +116,7 @@ string HTMLConverter::parseInline(string& line) {
 }
  void HTMLConverter::specialCases(string& line) {
     //Handle highlight case
-    line = regex_replace(line, regex(R"([<([^=]+)>])"), "<mark>$1</mark>");
+    line = regex_replace(line, regex(R"(\[<([^=]+)>\])"), "<mark>$1</mark>");
     //Handle image case
     line = regex_replace(line, regex(R"(!\[([^\]]*)\]\(([^\)]+)\))"), "<img src=\"$2\" alt=\"$1\">");
     //Hand link case
