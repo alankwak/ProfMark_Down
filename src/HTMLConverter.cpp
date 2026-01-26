@@ -26,6 +26,8 @@ void HTMLConverter::readInFile(string inPut, string outPath){
 
         parseMultiline(line);
 
+        parsePara(line);
+
         parseInline(line);
 
         cout << line << endl;
@@ -69,6 +71,21 @@ void HTMLConverter::parseMultiline(string& line) {
         }
     }
 }
+
+void HTMLConverter::parsePara(string& line){
+    //finds out if the line is empty
+    if(line == "" or line == "\n"){
+        //if paraCount is even add end html tag (start counter at 1) otherwise add start tag
+        if(paraCount % 2 == 0){
+            line += "</p>";
+        }else{
+            line += "<p>";
+        }
+        //add one to para count
+        paraCount++;
+    }
+}
+
 
 void HTMLConverter::parseInline(string& line) {
     

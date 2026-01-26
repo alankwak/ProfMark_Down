@@ -44,7 +44,7 @@ TEST_CASE("ph")
 
         REQUIRE(output == desiredOutput);
     }
- /*  SECTION("multiLinePara")
+   SECTION("multiLinePara")
     {
         string md = "This is a sentence.\n\nThis is another sentence\n\n";
         writeToFile("./tests/MarkdownFile.md", md);
@@ -54,7 +54,7 @@ TEST_CASE("ph")
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == desiredOutput);
-    } */
+    } 
 
     SECTION("multiLineItalic"){
         string md = "This *is a sentence.\nThis is another *sentence";
