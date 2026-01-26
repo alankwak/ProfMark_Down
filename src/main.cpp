@@ -11,6 +11,21 @@ void clearFile(string filePath);
 void writeToFile(string filePath, string content);
 string getFileContent(string filePath);
 
+TEST_CASE("Code blocks")
+{
+    SECTION("Test")
+    {
+        string md = "``` file=\"main.cpp\" highlight=\"1-5\" \n```";
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+
+        string desiredOutput = "<code></code>";
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        REQUIRE(output == desiredOutput);
+    }
+}
+
 TEST_CASE("Inline")
 {
     SECTION("Transfer text")
@@ -226,7 +241,7 @@ TEST_CASE("Inline")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "This <i>is a sentence.This is another </i>sentence";
+        string desiredOutput = "This <em>is a sentence.This is another </em>sentence";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == desiredOutput);
@@ -237,7 +252,7 @@ TEST_CASE("Inline")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<strong><i>This </i>is a sentence.This is another <i>sentence</strong></i>";
+        string desiredOutput = "<strong><em>This </em>is a sentence.This is another <em>sentence</strong></em>";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == desiredOutput);

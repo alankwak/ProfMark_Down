@@ -42,6 +42,7 @@ class HTMLConverter{
             {"`", "</code>"}
         };
 
+        string handleCodeBlock(string& line, bool& inCode);
         void parseMultiline(string& line);
         bool inList = false;
         void lists(string& line);
