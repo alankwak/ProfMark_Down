@@ -110,9 +110,11 @@ string HTMLConverter::parseInline(string& line) {
         symbolStack.pop();
     }
 
+    specialCases(newLine);
+
     return newLine;
 }
  void HTMLConverter::specialCases(string& line) {
     line = regex_replace(line, regex(R"(!\[([^\]]*)\]\(([^\)]+)\))"), "<img src=\"$2\" alt=\"$1\">");
     line = regex_replace(line, regex(R"(\[([^\]]+)\]\(([^)]+)\))"), "<a href=\"$2\">$1</a>");
- }
+}
