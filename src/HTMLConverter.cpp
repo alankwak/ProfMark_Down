@@ -1,10 +1,10 @@
 #include <iostream>
 #include <fstream>
+#include <stack>
 #include "HTMLConverter.hpp"
 using namespace std;
 
 HTMLConverter::HTMLConverter(string inPutFile, string outPutFile){
-    //
     readInFile(inPutFile, outPutFile);
 }
 
@@ -28,9 +28,10 @@ void HTMLConverter::readInFile(string inPut, string outPath){
 
         parsePara(line);
 
-        parseInline(line);
-
         cout << line << endl;
+
+        line = parseInline(line);
+         main
 
         outPutFile << line;
     }
@@ -87,6 +88,50 @@ void HTMLConverter::parsePara(string& line){
 }
 
 
-void HTMLConverter::parseInline(string& line) {
     
+string HTMLConverter::parseInline(string& line) {
+    stack<string> symbolStack;
+    string newLine;
+
+    int startingIndex = 0;
+
+    for(string& symbol : markdownStart) {
+        if(symbol.length() <= line.length() && line.substr(0, symbol.length()) == symbol) {
+            newLine += htmlStart[symbol];
+            symbolStack.push(htmlEnd[symbol]);
+            startingIndex = symbol.length();
+            break;
+        }
+    }
+
+    for(int i = startingIndex; i < line.length(); i++) {
+        bool found = false;
+        for(string& symbol : markdownAnywhere) {
+            if(i + symbol.length() <= line.length() && line.substr(i, symbol.length()) == symbol) {
+                if(!symbolStack.empty() && symbolStack.top() == htmlEnd[symbol]) {
+                    // ending symbol
+                    newLine += htmlEnd[symbol];
+                    symbolStack.pop();
+                } else {
+                    // starting symbol
+                    newLine += htmlStart[symbol];
+                    symbolStack.push(htmlEnd[symbol]);
+                }
+                i += symbol.length()-1;
+                found = true;
+                break;
+            }
+        }
+
+        if(!found) {
+            newLine += line[i];
+        }
+    }
+
+    while(!symbolStack.empty()) {
+        newLine += symbolStack.top();
+        symbolStack.pop();
+    }
+
+    return newLine;
 }
