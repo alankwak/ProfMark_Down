@@ -46,7 +46,7 @@ TEST_CASE("Inline")
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
         string output = getFileContent("./tests/HTMLFile.html");
 
-        string desiredOutput = "This is some <i>italicized</i> text.";
+        string desiredOutput = "This is some <em>italicized</em> text.";
 
         REQUIRE(output == desiredOutput);
     }

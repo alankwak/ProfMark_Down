@@ -15,7 +15,7 @@ class HTMLConverter{
         vector <string> markdownAnywhere = {"**", "*", "[<", ">]", "`"};
         vector <string> multiLine = {"**", "*", "\n\n"};
         unordered_map <string, string> htmlStart = {
-            {"*", "<i>"}, 
+            {"*", "<em>"}, 
             {"**", "<strong>"}, 
             {"# ","<h1>"}, 
             {"## ", "<h2>"}, 
@@ -30,7 +30,7 @@ class HTMLConverter{
             {">]", "<mark>"}
         };
         unordered_map <string, string> htmlEnd = {
-            {"*", "</i>"}, 
+            {"*", "</em>"}, 
             {"**", "</strong>"}, 
             {"# ","</h1>"}, 
             {"## ", "</h2>"}, 
