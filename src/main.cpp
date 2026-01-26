@@ -32,6 +32,40 @@ TEST_CASE("ph")
     {
         string md = "This is some **bold** text.";
     }
+
+    SECTION("multiLineBold")
+    {
+        string md = "**This is a sentence.\nThis is another sentence**";
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+
+        string desiredOutput = "<strong>This is a sentence.This is another sentence</strong>";
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        REQUIRE(output == desiredOutput);
+    }
+    SECTION("multiLinePara")
+    {
+        string md = "This is a sentence.\n\nThis is another sentence\n\n";
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+
+        string desiredOutput = "This is a sentence.<p>This is another sentence</p>";
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        REQUIRE(output == desiredOutput);
+    }
+
+    SECTION("multiLineItalic"){
+        string md = "This *is a sentence.\nThis is another *sentence";
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+
+        string desiredOutput = "This <i>is a sentence.This is another </i>sentence";
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        REQUIRE(output == desiredOutput);
+    }
 }
 
 void clearFile(string filePath) {
