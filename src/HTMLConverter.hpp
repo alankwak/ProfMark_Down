@@ -12,7 +12,7 @@ class HTMLConverter{
     void readInFile(string inPut, string outPath);
     private:
         vector <string> markdownStart = {"###### ", "##### ", "#### ", "### ", "## ", "# ",  "---", "\n\n"};
-        vector <string> markdownAnywhere = {"**", "*", "`"};
+        vector <string> markdownAnywhere = {"`"};
         vector <string> multiLine = {"**", "*", "\n\n"};
         unordered_map <string, int> symbolCount = {{"**" , 0}, {"*", 0 }};
         unordered_map <string, string> htmlStart = {

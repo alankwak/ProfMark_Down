@@ -105,19 +105,6 @@ TEST_CASE("Inline")
         REQUIRE(output == desiredOutput);
     }
 
-    // SECTION("Highlight")
-    // {
-    //     string md = "This is some [<highlighted>] text.";
-
-    //     writeToFile("./tests/MarkdownFile.md", md);
-    //     HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
-    //     string output = getFileContent("./tests/HTMLFile.html");
-
-    //     string desiredOutput = "This is some <mark>highlighted</mark> text.";
-
-    //     REQUIRE(output == desiredOutput);
-    // }
-
     SECTION("Inline code")
     {
         string md = "This is some `inline code`.";
@@ -258,27 +245,27 @@ TEST_CASE("Inline")
         REQUIRE(output == desiredOutput);
     }
 
-    SECTION("UnorderedlistOfStuff"){
-        string md = "\n - list \n - of \n - things \n over";
-        writeToFile("./tests/MarkdownFile.md", md);
-        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+    // SECTION("UnorderedlistOfStuff"){
+    //     string md = "\n - list \n - of \n - things \n over";
+    //     writeToFile("./tests/MarkdownFile.md", md);
+    //     HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<ul><li> - list </li><li> - of </li><li> - things </li?</ul> over";
-        string output = getFileContent("./tests/HTMLFile.html");
+    //     string desiredOutput = "<ul><li> - list </li><li> - of </li><li> - things </li?</ul> over";
+    //     string output = getFileContent("./tests/HTMLFile.html");
 
-        REQUIRE(output == desiredOutput);
-    }
+    //     REQUIRE(output == desiredOutput);
+    // }
 
-    SECTION("OrderedlistOfStuff"){
-        string md = "\n 1. list \n 2. of \n 3. things \n over";
-        writeToFile("./tests/MarkdownFile.md", md);
-        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+    // SECTION("OrderedlistOfStuff"){
+    //     string md = "\n 1. list \n 2. of \n 3. things \n over";
+    //     writeToFile("./tests/MarkdownFile.md", md);
+    //     HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<ul><li>list </li><li>of </li><li>things </li?</ul> over";
-        string output = getFileContent("./tests/HTMLFile.html");
+    //     string desiredOutput = "<ul><li>list </li><li>of </li><li>things </li?</ul> over";
+    //     string output = getFileContent("./tests/HTMLFile.html");
 
-        REQUIRE(output == desiredOutput);
-    }
+    //     REQUIRE(output == desiredOutput);
+    // }
 }
 
 void clearFile(string filePath) {

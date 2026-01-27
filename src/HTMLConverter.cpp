@@ -27,9 +27,9 @@ void HTMLConverter::readInFile(string inPut, string outPath){
 
         line = handleCodeBlock(line, inCode);
 
-        // parseMultiline(line);
+        parseMultiline(line);
 
-        // parsePara(line);
+        parsePara(line);
 
         // cout << line << endl;
 
