@@ -15,11 +15,41 @@ TEST_CASE("Code blocks")
 {
     SECTION("Test")
     {
-        string md = "``` file=\"main.cpp\" highlight=\"1-5\" \n```";
+        string md = "```\n```";
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
         string desiredOutput = "<code></code>";
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        REQUIRE(output == desiredOutput);
+    }
+
+    SECTION("File name")
+    {
+        string md = "``` file=\"main.cpp\"\n```";
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+
+        string desiredOutput = "<code>\n<span class=\"file-name\">main.cpp</span></code>";
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        REQUIRE(output == desiredOutput);
+    }
+
+    SECTION("Highlight")
+    {
+        string md = "``` highlight=\"2\"\n";
+        md += "int x;\n";
+        md += "x = 10;\n";
+        md += "```";
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+
+        string desiredOutput = "<code>";
+        desiredOutput += "int x;";
+        desiredOutput += "<mark>x = 10;</mark>";
+        desiredOutput += "</code>";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == desiredOutput);

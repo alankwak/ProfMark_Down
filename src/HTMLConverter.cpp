@@ -20,20 +20,29 @@ void HTMLConverter::readInFile(string inPut, string outPath){
     }
 
     bool inCode = false;
-
+    int lineCounter = 0;
     string line;
     while(getline(inPutFile, line)){
         //where we do things
 
         line = handleCodeBlock(line, inCode);
 
-        parseMultiline(line);
-
-        parsePara(line);
+        if(inCode) {
+            if(isInRanges(lineCounter) || highlightSingle.count(lineCounter)) {
+                line.insert(0, "<mark>");
+                line += "</mark>";
+            }
+            lineCounter++;
+        } else {
+            highlightRanges.clear();
+            highlightSingle.clear();
+            lineCounter = 0;
+            parseMultiline(line);
+            parsePara(line);
+            line = parseInline(line);
+        }
 
         lists(line);
-
-        line = parseInline(line);
 
         outPutFile << line;
     }
@@ -91,6 +100,7 @@ void HTMLConverter::parsePara(string& line){
 
 string HTMLConverter::handleCodeBlock(string& line, bool& inCode) {
     string newLine;
+    // check if line starts with ```
     if(line.length() >= 3 && line.substr(0, 3) == "```") {
         if(!inCode) {
             newLine += "<code>";
@@ -101,6 +111,25 @@ string HTMLConverter::handleCodeBlock(string& line, bool& inCode) {
             while(iter != end) {
                 smatch match = *iter;
                 
+                string setting = match[1];
+                string option = match[2];
+
+                if(setting == "file") {
+                    newLine += "\n<span class=\"file-name\">";
+                    newLine += match[2];
+                    newLine += "</span>";
+                } else if(setting == "highlight") {
+                    getHighlighting(option);
+                    // for(auto& n : highlightRanges) {
+                    //     cout << n;
+                    // }
+                    // cout << endl;
+                    // for(auto& n : highlightSingle) {
+                    //     cout << n;
+                    // }
+                    // cout << endl;
+                }
+
                 cout << "Setting: " << match[1] << endl;
                 cout << "Option: " << match[2] << endl;
                 
@@ -208,4 +237,44 @@ void HTMLConverter::lists(string& line){
     line = regex_replace(line, regex(R"(!\[([^\]]*)\]\(([^\)]+)\))"), "<img src=\"$2\" alt=\"$1\">");
     //Hand link case
     line = regex_replace(line, regex(R"(\[([^\]]+)\]\(([^)]+)\))"), "<a href=\"$2\">$1</a>");
+}
+void HTMLConverter::getHighlighting(string highlighting) {
+    int pos = 0;
+    int len = highlighting.length();
+
+    while(pos < len) {
+        auto nextComma = highlighting.find(',', pos);
+
+        int segmentLen;
+        if(nextComma < 0 || nextComma > len) {
+            segmentLen = len - pos;
+        } else {
+            segmentLen = nextComma - pos;
+        }
+
+        string segment = highlighting.substr(pos, segmentLen);
+
+        auto dash = segment.find('-');
+
+        if(dash >= 0 && dash < segment.length()) {
+            int start = stoi(segment.substr(0, dash));
+            int end = stoi(segment.substr(dash + 1));
+
+            highlightRanges.push_back(start);
+            highlightRanges.push_back(end);
+        } else {
+            highlightSingle.insert(stoi(segment));
+        }
+        if(nextComma == string::npos) break;
+        pos = nextComma + 1;
+    }
+}
+
+bool HTMLConverter::isInRanges(int lineNumber) {
+    for(int i = 0; i < highlightRanges.size(); i += 2) {
+        if(lineNumber >= highlightRanges[i] && lineNumber <= highlightRanges[i+1]) {
+            return true;
+        }
+    }
+    return false;
 }
