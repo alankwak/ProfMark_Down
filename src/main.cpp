@@ -253,8 +253,8 @@ TEST_CASE("Inline")
         string desiredOutput = "<ul><li>list </li><li>of </li><li>things </li></ul> over";
         string output = getFileContent("./tests/HTMLFile.html");
 
-    //     REQUIRE(output == desiredOutput);
-    // }
+        REQUIRE(output == desiredOutput);
+    }
 
     SECTION("OrderedlistOfStuff"){
         string md = "1. list \n2. of \n3. things \n over";
@@ -264,8 +264,8 @@ TEST_CASE("Inline")
         string desiredOutput = "<ol><li>list </li><li>of </li><li>things </li></ol> over";
         string output = getFileContent("./tests/HTMLFile.html");
 
-    //     REQUIRE(output == desiredOutput);
-    // }
+        REQUIRE(output == desiredOutput);
+    }
 }
 
 void clearFile(string filePath) {
