@@ -250,6 +250,7 @@ void HTMLConverter::programOutputParse(string& line){
         line = line.substr(3) + "</pre>";
         inProgOutput = false;
     }
+}
 void HTMLConverter::getHighlighting(string highlighting) {
     int pos = 0;
     int len = highlighting.length();
