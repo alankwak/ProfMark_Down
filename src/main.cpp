@@ -19,7 +19,7 @@ TEST_CASE("Code blocks")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<code></code>";
+        string desiredOutput = "<pre><code></code></pre>";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == desiredOutput);
@@ -31,7 +31,7 @@ TEST_CASE("Code blocks")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<code>\n<span class=\"file-name\">main.cpp</span></code>";
+        string desiredOutput = "<pre><code>\n<span class=\"file-name\">main.cpp</span></code></pre>";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == desiredOutput);
@@ -46,10 +46,10 @@ TEST_CASE("Code blocks")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<code>";
+        string desiredOutput = "<pre><code>";
         desiredOutput += "int x;";
         desiredOutput += "<mark>x = 10;</mark>";
-        desiredOutput += "</code>";
+        desiredOutput += "</code></pre>";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == desiredOutput);
