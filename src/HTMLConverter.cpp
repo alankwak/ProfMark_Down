@@ -29,10 +29,9 @@ void HTMLConverter::readInFile(string inPut, string outPath){
 
         parsePara(line);
 
-        cout << line << endl;
+        lists(line);
 
         line = parseInline(line);
-         main
 
         outPutFile << line;
     }
@@ -140,43 +139,37 @@ string HTMLConverter::parseInline(string& line) {
 }
 
 void HTMLConverter::lists(string& line){
-    for (int i = 0; i < line.length(); i++) {
-        if (line[i] == '- ') {
-            if (inListUn == false){
-               // replace with <ul>
-            line = "<ul>\n<li>" + line;
+//finds if line starts with dash if no dash found see if inlist and if true add end tag and assign inListUn to false
+    if (line.rfind("- ", 0) == 0) {
+        //if not in list yet do starting tag and assign inListUn to true otherwise add list tags to line
+        if (!inListUn) {
+            line = "<ul><li>" + line.substr(2) + "</li>";
             inListUn = true;
-            } else {
-                //replace with <li> and </li>
-                line = "<li>" + line;
-                line += "</li>";
-
-            }
-        } else if (line[i] ==  ordList + '. ') {
-            if (inListOrd == false){
-                inListOrd = true;
-                // replace with <ol>
-                line = "<ol>\n<li>" + line;
-                ordList++;
-
-            } else {
-                //replace with <li> and </li>
-                line = "<li>" + line;
-                line += "</li>";
-                ordList++;
-            }
-        } else if (inListOrd = true){
-            //add html end tag to start of line <ul>
-            line = line + "</ol>";
-            inList = false;
+        } else {
+            line = "<li>" + line.substr(2) + "</li>";
         }
-        else if (inListUn = true){
-            //add html end tag to start of line <ul>
-            line = line + "</ul>";
-            inList = false;
+    } else {
+        if (inListUn) {
+            line = "</ul>" + line;
+            inListUn = false;
         }
-        if (inListOrd == false) {
-            ordList = 1;
+    }
+
+    if(line[0] > 49 && line[0] < 57 && line[1] == '.'){
+        if(inListOrd == true){
+            line = "<li>" + line.substr(3) + "</li>";
+        }
+    }else{
+        if(inListOrd){
+            line = "</ol>" + line;
+            inListUn = false; 
+        }
+    }
+
+    if(line.rfind("1. ", 0) == 0){
+        if(!inListOrd){
+            line = "<ol><li>" + line.substr(3) + "</li>";
+            inListOrd = true;
         }
     }
 }

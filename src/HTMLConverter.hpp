@@ -43,7 +43,6 @@ class HTMLConverter{
         };
 
         void parseMultiline(string& line);
-        bool inList = false;
         void lists(string& line);
         int paraCount = 1;
         void parsePara(string& line);
