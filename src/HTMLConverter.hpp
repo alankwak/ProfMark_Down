@@ -57,6 +57,9 @@ class HTMLConverter{
         bool inListOrd = false;
         bool inListUn = false;
         int ordList = 1;
+        bool inProgOutput = false;
+        void programOutputParse(string& line);
+
         void getHighlighting(string highlighting);
         void specialCases(string& line);
 };
