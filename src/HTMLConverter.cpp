@@ -25,6 +25,8 @@ void HTMLConverter::readInFile(string inPut, string outPath){
     while(getline(inPutFile, line)){
         //where we do things
 
+        programOutputParse(line);
+
         line = handleCodeBlock(line, inCode);
 
         parseMultiline(line);
@@ -208,4 +210,15 @@ void HTMLConverter::lists(string& line){
     line = regex_replace(line, regex(R"(!\[([^\]]*)\]\(([^\)]+)\))"), "<img src=\"$2\" alt=\"$1\">");
     //Hand link case
     line = regex_replace(line, regex(R"(\[([^\]]+)\]\(([^)]+)\))"), "<a href=\"$2\">$1</a>");
+}
+
+void HTMLConverter::programOutputParse(string& line){
+    if(line.rfind("``` program-output", 0) == 0){
+        inProgOutput = true;
+        line = "<pre style = \"background-color: black; color: white; min-height: 150px; padding: 5px; overflow-y: auto\">program-output:\n" + line.substr(18);
+    }
+    if(line.rfind("```", 0) == 0 && inProgOutput){
+        line = line.substr(3) + "</pre>";
+        inProgOutput = false;
+    }
 }

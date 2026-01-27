@@ -266,6 +266,18 @@ TEST_CASE("Inline")
 
         REQUIRE(output == desiredOutput);
     }
+
+    SECTION("ProgramOutputStyle"){
+        string md = "``` program-outputthis is program outputs \non multiple lines \nthat should be white on a black background\n```";
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+
+        string desiredOutput = "<pre style = \"background-color: black; color: white; min-height: 150px; padding: 5px; overflow-y: auto\">program-output:\nthis is program outputs on multiple lines that should be white on a black background</pre>";
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        REQUIRE(output == desiredOutput);
+    }
+    
 }
 
 void clearFile(string filePath) {
