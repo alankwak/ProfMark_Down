@@ -19,20 +19,21 @@ void HTMLConverter::readInFile(string inPut, string outPath){
         cerr << "Error: could not open file: " << inPut << endl;
     }
 
-    // set up bools
+    bool inCode = false;
 
     string line;
     while(getline(inPutFile, line)){
         //where we do things
 
+        line = handleCodeBlock(line, inCode);
+
         parseMultiline(line);
 
         parsePara(line);
 
-        cout << line << endl;
+        // cout << line << endl;
 
         line = parseInline(line);
-         main
 
         outPutFile << line;
     }
@@ -88,7 +89,32 @@ void HTMLConverter::parsePara(string& line){
     }
 }
 
+string HTMLConverter::handleCodeBlock(string& line, bool& inCode) {
+    string newLine;
+    if(line.length() >= 3 && line.substr(0, 3) == "```") {
+        if(!inCode) {
+            newLine += "<code>";
+            regex pattern(R"(\s([^=\s]+)=\"([^=\s]+)\")");
+            sregex_iterator iter(line.begin(), line.end(), pattern);
+            sregex_iterator end;
 
+            while(iter != end) {
+                smatch match = *iter;
+                
+                cout << "Setting: " << match[1] << endl;
+                cout << "Option: " << match[2] << endl;
+                
+                iter++;
+            }
+        } else {
+            newLine += "</code>";
+        }
+        
+        inCode = !inCode;
+        return newLine;
+    }
+    return line;
+}
     
 string HTMLConverter::parseInline(string& line) {
     stack<string> symbolStack;
@@ -139,47 +165,47 @@ string HTMLConverter::parseInline(string& line) {
     return newLine;
 }
 
-void HTMLConverter::lists(string& line){
-    for (int i = 0; i < line.length(); i++) {
-        if (line[i] == '- ') {
-            if (inListUn == false){
-               // replace with <ul>
-            line = "<ul>\n<li>" + line;
-            inListUn = true;
-            } else {
-                //replace with <li> and </li>
-                line = "<li>" + line;
-                line += "</li>";
+// void HTMLConverter::lists(string& line){
+//     for (int i = 0; i < line.length(); i++) {
+//         if (line[i] == '- ') {
+//             if (inListUn == false){
+//                // replace with <ul>
+//             line = "<ul>\n<li>" + line;
+//             inListUn = true;
+//             } else {
+//                 //replace with <li> and </li>
+//                 line = "<li>" + line;
+//                 line += "</li>";
 
-            }
-        } else if (line[i] ==  ordList + '. ') {
-            if (inListOrd == false){
-                inListOrd = true;
-                // replace with <ol>
-                line = "<ol>\n<li>" + line;
-                ordList++;
+//             }
+//         } else if (line[i] ==  ordList + '. ') {
+//             if (inListOrd == false){
+//                 inListOrd = true;
+//                 // replace with <ol>
+//                 line = "<ol>\n<li>" + line;
+//                 ordList++;
 
-            } else {
-                //replace with <li> and </li>
-                line = "<li>" + line;
-                line += "</li>";
-                ordList++;
-            }
-        } else if (inListOrd = true){
-            //add html end tag to start of line <ul>
-            line = line + "</ol>";
-            inList = false;
-        }
-        else if (inListUn = true){
-            //add html end tag to start of line <ul>
-            line = line + "</ul>";
-            inList = false;
-        }
-        if (inListOrd == false) {
-            ordList = 1;
-        }
-    }
-}
+//             } else {
+//                 //replace with <li> and </li>
+//                 line = "<li>" + line;
+//                 line += "</li>";
+//                 ordList++;
+//             }
+//         } else if (inListOrd == true){
+//             //add html end tag to start of line <ul>
+//             line = line + "</ol>";
+//             inList = false;
+//         }
+//         else if (inListUn == true){
+//             //add html end tag to start of line <ul>
+//             line = line + "</ul>";
+//             inList = false;
+//         }
+//         if (inListOrd == false) {
+//             ordList = 1;
+//         }
+//     }
+// }
 
  void HTMLConverter::specialCases(string& line) {
     //Handle highlight case

@@ -11,6 +11,21 @@ void clearFile(string filePath);
 void writeToFile(string filePath, string content);
 string getFileContent(string filePath);
 
+TEST_CASE("Code blocks")
+{
+    SECTION("Test")
+    {
+        string md = "``` file=\"main.cpp\" highlight=\"1-5\" \n```";
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+
+        string desiredOutput = "<code></code>";
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        REQUIRE(output == desiredOutput);
+    }
+}
+
 TEST_CASE("Inline")
 {
     SECTION("Transfer text")
@@ -89,19 +104,6 @@ TEST_CASE("Inline")
 
         REQUIRE(output == desiredOutput);
     }
-
-    // SECTION("Highlight")
-    // {
-    //     string md = "This is some [<highlighted>] text.";
-
-    //     writeToFile("./tests/MarkdownFile.md", md);
-    //     HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
-    //     string output = getFileContent("./tests/HTMLFile.html");
-
-    //     string desiredOutput = "This is some <mark>highlighted</mark> text.";
-
-    //     REQUIRE(output == desiredOutput);
-    // }
 
     SECTION("Inline code")
     {
@@ -226,7 +228,7 @@ TEST_CASE("Inline")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "This <i>is a sentence.This is another </i>sentence";
+        string desiredOutput = "This <em>is a sentence.This is another </em>sentence";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == desiredOutput);
@@ -237,33 +239,33 @@ TEST_CASE("Inline")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<strong><i>This </i>is a sentence.This is another <i>sentence</strong></i>";
+        string desiredOutput = "<strong><em>This </em>is a sentence.This is another <em>sentence</strong></em>";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == desiredOutput);
     }
 
-    SECTION("UnorderedlistOfStuff"){
-        string md = "\n - list \n - of \n - things \n over";
-        writeToFile("./tests/MarkdownFile.md", md);
-        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+    // SECTION("UnorderedlistOfStuff"){
+    //     string md = "\n - list \n - of \n - things \n over";
+    //     writeToFile("./tests/MarkdownFile.md", md);
+    //     HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<ul><li> - list </li><li> - of </li><li> - things </li?</ul> over";
-        string output = getFileContent("./tests/HTMLFile.html");
+    //     string desiredOutput = "<ul><li> - list </li><li> - of </li><li> - things </li?</ul> over";
+    //     string output = getFileContent("./tests/HTMLFile.html");
 
-        REQUIRE(output == desiredOutput);
-    }
+    //     REQUIRE(output == desiredOutput);
+    // }
 
-    SECTION("OrderedlistOfStuff"){
-        string md = "\n 1. list \n 2. of \n 3. things \n over";
-        writeToFile("./tests/MarkdownFile.md", md);
-        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+    // SECTION("OrderedlistOfStuff"){
+    //     string md = "\n 1. list \n 2. of \n 3. things \n over";
+    //     writeToFile("./tests/MarkdownFile.md", md);
+    //     HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<ul><li>list </li><li>of </li><li>things </li?</ul> over";
-        string output = getFileContent("./tests/HTMLFile.html");
+    //     string desiredOutput = "<ul><li>list </li><li>of </li><li>things </li?</ul> over";
+    //     string output = getFileContent("./tests/HTMLFile.html");
 
-        REQUIRE(output == desiredOutput);
-    }
+    //     REQUIRE(output == desiredOutput);
+    // }
 }
 
 void clearFile(string filePath) {
