@@ -103,7 +103,7 @@ string HTMLConverter::handleCodeBlock(string& line, bool& inCode) {
     // check if line starts with ```
     if(line.length() >= 3 && line.substr(0, 3) == "```") {
         if(!inCode) {
-            newLine += "<code>";
+            newLine += "<pre><code>";
             regex pattern(R"(\s([^=\s]+)=\"([^=\s]+)\")");
             sregex_iterator iter(line.begin(), line.end(), pattern);
             sregex_iterator end;
@@ -136,7 +136,7 @@ string HTMLConverter::handleCodeBlock(string& line, bool& inCode) {
                 iter++;
             }
         } else {
-            newLine += "</code>";
+            newLine += "</code></pre>";
         }
         
         inCode = !inCode;
