@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -43,6 +44,11 @@ class HTMLConverter{
         };
 
         string handleCodeBlock(string& line, bool& inCode);
+        string highlightLines(vector<int>& lower, vector<int>& upper);
+        vector<int> highlightRanges;
+        unordered_set<int> highlightSingle;
+        bool isInRanges(int lineNumber);
+
         void parseMultiline(string& line);
         void lists(string& line);
         int paraCount = 1;
@@ -54,5 +60,6 @@ class HTMLConverter{
         bool inProgOutput = false;
         void programOutputParse(string& line);
 
+        void getHighlighting(string highlighting);
         void specialCases(string& line);
 };
