@@ -136,8 +136,8 @@ string HTMLConverter::handleCodeBlock(string& line, bool& inCode) {
                     // cout << endl;
                 }
 
-                cout << "Setting: " << match[1] << endl;
-                cout << "Option: " << match[2] << endl;
+                // cout << "Setting: " << match[1] << endl;
+                // cout << "Option: " << match[2] << endl;
                 
                 iter++;
             }
@@ -298,5 +298,5 @@ bool HTMLConverter::isInRanges(int lineNumber) {
 }
 
 void addBoilerPlateHTML() {
-    
+
 }

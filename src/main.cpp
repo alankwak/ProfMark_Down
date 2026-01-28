@@ -307,7 +307,7 @@ TEST_CASE("Inline")
     }
 
     SECTION("ProgramOutputStyle"){
-        string md = "``` program-outputthis is program outputs \non multiple lines \nthat should be white on a black background\n```";
+        string md = "```program-outputthis is program outputs \non multiple lines \nthat should be white on a black background\n```";
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
