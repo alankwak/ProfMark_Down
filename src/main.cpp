@@ -54,6 +54,24 @@ TEST_CASE("Code blocks")
 
         REQUIRE(output == desiredOutput);
     }
+
+    SECTION("Highlight inline")
+    {
+        string md = "```\n";
+        md += "[<int>] x;\n";
+        md += "x = 10;\n";
+        md += "```";
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+
+        string desiredOutput = "<pre><code>";
+        desiredOutput += "<mark>int</mark> x;";
+        desiredOutput += "x = 10;";
+        desiredOutput += "</code></pre>";
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        REQUIRE(output == desiredOutput);
+    }
 }
 
 TEST_CASE("Inline")
@@ -92,19 +110,6 @@ TEST_CASE("Inline")
         string output = getFileContent("./tests/HTMLFile.html");
 
         string desiredOutput = "This is a <a href=\"https://google.com\">link</a>.";
-
-        REQUIRE(output == desiredOutput);
-    }
-
-    SECTION("Highlight")
-    {
-        string md = "This is some [<highlighted text>], maybe in code.";
-
-        writeToFile("./tests/MarkdownFile.md", md);
-        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
-        string output = getFileContent("./tests/HTMLFile.html");
-
-        string desiredOutput = "This is some <mark>highlighted text</mark>, maybe in code.";
 
         REQUIRE(output == desiredOutput);
     }

@@ -62,4 +62,5 @@ class HTMLConverter{
 
         void getHighlighting(string highlighting);
         void specialCases(string& line);
+        void highlightCase(string& line);
 };

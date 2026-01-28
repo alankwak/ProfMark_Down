@@ -30,6 +30,7 @@ void HTMLConverter::readInFile(string inPut, string outPath){
         line = handleCodeBlock(line, inCode);
 
         if(inCode) {
+            highlightCase(line);
             if(isInRanges(lineCounter) || highlightSingle.count(lineCounter)) {
                 line.insert(0, "<mark>");
                 line += "</mark>";
@@ -233,14 +234,15 @@ void HTMLConverter::lists(string& line){
 }
 
  void HTMLConverter::specialCases(string& line) {
-    //Handle highlight case
-    line = regex_replace(line, regex(R"(\[<([^=]+)>\])"), "<mark>$1</mark>");
     //Handle image case
     line = regex_replace(line, regex(R"(!\[([^\]]*)\]\(([^\)]+)\))"), "<img src=\"$2\" alt=\"$1\">");
     //Hand link case
     line = regex_replace(line, regex(R"(\[([^\]]+)\]\(([^)]+)\))"), "<a href=\"$2\">$1</a>");
 }
-
+void HTMLConverter::highlightCase(string& line) {
+    //Handle highlight case
+    line = regex_replace(line, regex(R"(\[<([^=]+)>\])"), "<mark>$1</mark>");   
+}
 void HTMLConverter::programOutputParse(string& line){
     if(line.rfind("```program-output", 0) == 0){
         inProgOutput = true;
