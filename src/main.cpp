@@ -67,7 +67,7 @@ TEST_CASE("Code blocks")
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
         string desiredOutput = "<pre><code>";
-        desiredOutput += "<mark>int</mark> x;";
+        desiredOutput += "<span style=\"background-color: green\">int</span> x;";
         desiredOutput += "x = 10;";
         desiredOutput += "</code></pre>";
         string output = getFileContent("./tests/HTMLFile.html");

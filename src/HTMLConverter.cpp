@@ -244,7 +244,7 @@ void HTMLConverter::lists(string& line){
 }
 void HTMLConverter::highlightCase(string& line) {
     //Handle highlight case
-    line = regex_replace(line, regex(R"(\[<((?:(?!\[<|>\]).)*)>\])"), "<mark>$1</mark>");   
+    line = regex_replace(line, regex(R"(\[<((?:(?!\[<|>\]).)*)>\])"), "<span style=\"background-color: green\">$1</span>");   
 }
 void HTMLConverter::programOutputParse(string& line){
     if(line.rfind("```program-output", 0) == 0){
