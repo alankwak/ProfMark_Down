@@ -14,6 +14,7 @@ void HTMLConverter::readInFile(string inPut, string outPath){
     ifstream inPutFile(inPut);
     ofstream outPutFile(outPath);
 
+    outPutFile << "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\t<title>ProfMarkDown</title>\n</head>\n<body>\n";
 
     if(!inPutFile.is_open()) {
         cerr << "Error: could not open file: " << inPut << endl;
@@ -49,6 +50,8 @@ void HTMLConverter::readInFile(string inPut, string outPath){
 
         outPutFile << line;
     }
+
+    outPutFile << "</body>\n</html>";
 
     inPutFile.close();
     outPutFile.close();
@@ -292,4 +295,8 @@ bool HTMLConverter::isInRanges(int lineNumber) {
         }
     }
     return false;
+}
+
+void addBoilerPlateHTML() {
+    
 }
