@@ -224,7 +224,7 @@ void HTMLConverter::lists(string& line){
     }else{
         if(inListOrd){
             line = "</ol>" + line;
-            inListUn = false; 
+            inListOrd = false; 
         }
     }
 
@@ -247,9 +247,9 @@ void HTMLConverter::highlightCase(string& line) {
     line = regex_replace(line, regex(R"(\[<([^=]+)>\])"), "<mark>$1</mark>");   
 }
 void HTMLConverter::programOutputParse(string& line){
-    if(line.rfind("``` program-output", 0) == 0){
+    if(line.rfind("```program-output", 0) == 0){
         inProgOutput = true;
-        line = "<pre style = \"background-color: black; color: white; min-height: 150px; padding: 5px; overflow-y: auto\">program-output:\n" + line.substr(18);
+        line = "<pre style = \"background-color: black; color: white; min-height: 150px; padding: 5px; overflow-y: auto\">program-output:\n" + line.substr(17);
     }
     if(line.rfind("```", 0) == 0 && inProgOutput){
         line = line.substr(3) + "</pre>";

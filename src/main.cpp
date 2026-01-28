@@ -316,6 +316,8 @@ TEST_CASE("Inline")
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
     }
+
+    HTMLConverter("/workspaces/ProfMark_Down/tests/acceptanceTest.md","/workspaces/ProfMark_Down/tests/acceptanceTest.html");
     
 }
 
