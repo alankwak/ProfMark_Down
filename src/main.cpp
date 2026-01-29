@@ -96,18 +96,18 @@ TEST_CASE("Inline")
         REQUIRE(output == desiredOutput);
     }
 
-    // SECTION("Highlight")
-    // {
-    //     string md = "This is some [<highlighted text>], maybe in code.";
+    SECTION("Highlight")
+    {
+        string md = "This is some [<highlighted text>], maybe in code.";
 
-    //     writeToFile("./tests/MarkdownFile.md", md);
-    //     HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
-    //     string output = getFileContent("./tests/HTMLFile.html");
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+        string output = getFileContent("./tests/HTMLFile.html");
 
-    //     string desiredOutput = "This is some <mark>highlighted text</mark>, maybe in code.";
+        string desiredOutput = "This is some <mark>highlighted text</mark>, maybe in code.";
 
-    //     REQUIRE(output == desiredOutput);
-    // }
+        REQUIRE(output == desiredOutput);
+    }
 
     SECTION("Bold")
     {
