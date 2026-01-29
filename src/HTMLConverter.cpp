@@ -14,6 +14,7 @@ void HTMLConverter::readInFile(string inPut, string outPath){
     ifstream inPutFile(inPut);
     ofstream outPutFile(outPath);
 
+    outPutFile << "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\t<title>ProfMarkDown</title>\n</head>\n<body>\n";
 
     if(!inPutFile.is_open()) {
         cerr << "Error: could not open file: " << inPut << endl;
@@ -50,6 +51,8 @@ void HTMLConverter::readInFile(string inPut, string outPath){
 
         outPutFile << line;
     }
+
+    outPutFile << "</body>\n</html>";
 
     inPutFile.close();
     outPutFile.close();
@@ -134,8 +137,8 @@ string HTMLConverter::handleCodeBlock(string& line, bool& inCode) {
                     // cout << endl;
                 }
 
-                cout << "Setting: " << match[1] << endl;
-                cout << "Option: " << match[2] << endl;
+                // cout << "Setting: " << match[1] << endl;
+                // cout << "Option: " << match[2] << endl;
                 
                 iter++;
             }
@@ -222,7 +225,7 @@ void HTMLConverter::lists(string& line){
     }else{
         if(inListOrd){
             line = "</ol>" + line;
-            inListUn = false; 
+            inListOrd = false; 
         }
     }
 
@@ -238,12 +241,12 @@ void HTMLConverter::lists(string& line){
     //Handle image case
     line = regex_replace(line, regex(R"(!\[([^\]]*)\]\(([^\)]+)\))"), "<img src=\"$2\" alt=\"$1\">");
     //Hand link case
-    line = regex_replace(line, regex(R"(\[([^\]]+)\]\(([^)]+)\))"), "<a href=\"$2\">$1</a>");
+    line = regex_replace(line, regex(R"(\[([^\]]+)\]\(([^)]+)\))"), "<a href=\"$2\" target=\"_blank\" rel=\"noopener noreferrer\">$1</a>");
 }
 
 void HTMLConverter::highlightCase(string& line) {
     //Handle highlight case
-    line = regex_replace(line, regex(R"(\[<([^=]+)>\])"), "<mark>$1</mark>");   
+    line = regex_replace(line, regex(R"(\[<((?:(?!\[<|>\]).)*)>\])"), "<span style=\"background-color: green\">$1</span>");   
 }
 
 void HTMLConverter::parseTable(string& line) {
@@ -323,9 +326,9 @@ void HTMLConverter::parseTable(string& line) {
 }
 
 void HTMLConverter::programOutputParse(string& line){
-    if(line.rfind("``` program-output", 0) == 0){
+    if(line.rfind("```program-output", 0) == 0){
         inProgOutput = true;
-        line = "<pre style = \"background-color: black; color: white; min-height: 150px; padding: 5px; overflow-y: auto\">program-output:\n" + line.substr(18);
+        line = "<pre style = \"background-color: black; color: white; min-height: 150px; padding: 5px; overflow-y: auto\">program-output:\n" + line.substr(17);
     }
     if(line.rfind("```", 0) == 0 && inProgOutput){
         line = line.substr(3) + "</pre>";
