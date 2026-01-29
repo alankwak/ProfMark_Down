@@ -21,7 +21,8 @@ TEST_CASE("Code blocks")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<pre><code></code></pre>";
+        string desiredOutput = "<pre><code>\n";
+        desiredOutput += "</code></pre>\n";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
@@ -33,7 +34,9 @@ TEST_CASE("Code blocks")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<pre><code>\n<span class=\"file-name\">main.cpp</span></code></pre>";
+        string desiredOutput = "<pre><code>\n";
+        desiredOutput += "<span class=\"file-name\">main.cpp</span>\n";
+        desiredOutput += "</code></pre>\n";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
@@ -48,10 +51,10 @@ TEST_CASE("Code blocks")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<pre><code>";
-        desiredOutput += "int x;";
-        desiredOutput += "<mark>x = 10;</mark>";
-        desiredOutput += "</code></pre>";
+        string desiredOutput = "<pre><code>\n";
+        desiredOutput += "int x;\n";
+        desiredOutput += "<mark>x = 10;</mark>\n";
+        desiredOutput += "</code></pre>\n";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
@@ -66,10 +69,10 @@ TEST_CASE("Code blocks")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<pre><code>";
-        desiredOutput += "<span style=\"background-color: green\">int</span> x;";
-        desiredOutput += "x = 10;";
-        desiredOutput += "</code></pre>";
+        string desiredOutput = "<pre><code>\n";
+        desiredOutput += "<span style=\"background-color: green\">int</span> x;\n";
+        desiredOutput += "x = 10;\n";
+        desiredOutput += "</code></pre>\n";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
@@ -86,7 +89,7 @@ TEST_CASE("Inline")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "This is a sentence.This is another sentence";
+        string desiredOutput = "This is a sentence.\nThis is another sentence\n";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
@@ -100,7 +103,7 @@ TEST_CASE("Inline")
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
         string output = getFileContent("./tests/HTMLFile.html");
 
-        string desiredOutput = "This is an <img src=\"image/link.png\" alt=\"image\">.";
+        string desiredOutput = "This is an <img src=\"image/link.png\" alt=\"image\">.\n";
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
     }
@@ -113,7 +116,7 @@ TEST_CASE("Inline")
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
         string output = getFileContent("./tests/HTMLFile.html");
 
-        string desiredOutput = "This is a <a href=\"https://google.com\" target=\"_blank\" rel=\"noopener noreferrer\">link</a>.";
+        string desiredOutput = "This is a <a href=\"https://google.com\" target=\"_blank\" rel=\"noopener noreferrer\">link</a>.\n";
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
     }
@@ -126,7 +129,7 @@ TEST_CASE("Inline")
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
         string output = getFileContent("./tests/HTMLFile.html");
 
-        string desiredOutput = "This is some <strong>bold</strong> text.";
+        string desiredOutput = "This is some <strong>bold</strong> text.\n";
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
     }
@@ -139,7 +142,7 @@ TEST_CASE("Inline")
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
         string output = getFileContent("./tests/HTMLFile.html");
 
-        string desiredOutput = "This is some <em>italicized</em> text.";
+        string desiredOutput = "This is some <em>italicized</em> text.\n";
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
     }
@@ -152,7 +155,7 @@ TEST_CASE("Inline")
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
         string output = getFileContent("./tests/HTMLFile.html");
 
-        string desiredOutput = "This is some <code>inline code</code>.";
+        string desiredOutput = "This is some <code>inline code</code>.\n";
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
     }
@@ -166,7 +169,7 @@ TEST_CASE("Inline")
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
         string output = getFileContent("./tests/HTMLFile.html");
 
-        string desiredOutput = "<h1>This is an h1.</h1>";
+        string desiredOutput = "<h1>This is an h1.</h1>\n";
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
 
@@ -177,7 +180,7 @@ TEST_CASE("Inline")
         HTMLConverter testCase2("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
         output = getFileContent("./tests/HTMLFile.html");
 
-        desiredOutput = "<h2>This is an h2.</h2>";
+        desiredOutput = "<h2>This is an h2.</h2>\n";
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
 
@@ -188,7 +191,7 @@ TEST_CASE("Inline")
         HTMLConverter testCase3("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
         output = getFileContent("./tests/HTMLFile.html");
 
-        desiredOutput = "<h3>This is an h3.</h3>";
+        desiredOutput = "<h3>This is an h3.</h3>\n";
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
 
@@ -199,7 +202,7 @@ TEST_CASE("Inline")
         HTMLConverter testCase4("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
         output = getFileContent("./tests/HTMLFile.html");
 
-        desiredOutput = "<h4>This is an h4.</h4>";
+        desiredOutput = "<h4>This is an h4.</h4>\n";
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
 
@@ -210,7 +213,7 @@ TEST_CASE("Inline")
         HTMLConverter testCase5("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
         output = getFileContent("./tests/HTMLFile.html");
 
-        desiredOutput = "<h5>This is an h5.</h5>";
+        desiredOutput = "<h5>This is an h5.</h5>\n";
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
 
@@ -221,7 +224,7 @@ TEST_CASE("Inline")
         HTMLConverter testCase6("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
         output = getFileContent("./tests/HTMLFile.html");
 
-        desiredOutput = "<h6>This is an h6.</h6>";
+        desiredOutput = "<h6>This is an h6.</h6>\n";
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
     }
@@ -234,7 +237,7 @@ TEST_CASE("Inline")
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
         string output = getFileContent("./tests/HTMLFile.html");
 
-        string desiredOutput = "<hr/>";
+        string desiredOutput = "<hr/>\n";
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
     }
@@ -245,7 +248,7 @@ TEST_CASE("Inline")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<strong>This is a sentence.This is another sentence</strong>";
+        string desiredOutput = "<strong>This is a sentence.\nThis is another sentence</strong>\n";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
@@ -256,7 +259,7 @@ TEST_CASE("Inline")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "This is a sentence.<p>This is another sentence</p>";
+        string desiredOutput = "This is a sentence.\n<p>\nThis is another sentence\n</p>\n";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
@@ -267,7 +270,7 @@ TEST_CASE("Inline")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "This <em>is a sentence.This is another </em>sentence";
+        string desiredOutput = "This <em>is a sentence.\nThis is another </em>sentence\n";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
@@ -278,7 +281,7 @@ TEST_CASE("Inline")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<strong><em>This </em>is a sentence.This is another <em>sentence</strong></em>";
+        string desiredOutput = "<strong><em>This </em>is a sentence.\nThis is another <em>sentence</strong></em>\n";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
@@ -289,7 +292,7 @@ TEST_CASE("Inline")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<ul><li>list </li><li>of </li><li>things </li></ul> over";
+        string desiredOutput = "<ul><li>list </li>\n<li>of </li>\n<li>things </li>\n</ul> over\n";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
@@ -300,7 +303,7 @@ TEST_CASE("Inline")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<ol><li>list </li><li>of </li><li>things </li></ol> over";
+        string desiredOutput = "<ol><li>list </li>\n<li>of </li>\n<li>things </li>\n</ol> over\n";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
@@ -311,7 +314,7 @@ TEST_CASE("Inline")
         writeToFile("./tests/MarkdownFile.md", md);
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
 
-        string desiredOutput = "<pre style = \"background-color: black; color: white; min-height: 150px; padding: 5px; overflow-y: auto\">program-output:\nthis is program outputs on multiple lines that should be white on a black background</pre>";
+        string desiredOutput = "<pre style = \"background-color: black; color: white; min-height: 150px; padding: 5px; overflow-y: auto\">program-output:\nthis is program outputs \non multiple lines \nthat should be white on a black background\n</pre>\n";
         string output = getFileContent("./tests/HTMLFile.html");
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);

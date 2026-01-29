@@ -48,7 +48,7 @@ void HTMLConverter::readInFile(string inPut, string outPath){
 
         lists(line);
 
-        outPutFile << line;
+        outPutFile << line << endl;
     }
 
     outPutFile << "</body>\n</html>";
