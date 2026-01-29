@@ -43,6 +43,7 @@ void HTMLConverter::readInFile(string inPut, string outPath){
             lineCounter = 0;
             parseMultiline(line);
             parsePara(line);
+            parseTable(line);
             line = parseInline(line);
         }
 
@@ -242,10 +243,88 @@ void HTMLConverter::lists(string& line){
     //Hand link case
     line = regex_replace(line, regex(R"(\[([^\]]+)\]\(([^)]+)\))"), "<a href=\"$2\" target=\"_blank\" rel=\"noopener noreferrer\">$1</a>");
 }
+
 void HTMLConverter::highlightCase(string& line) {
     //Handle highlight case
     line = regex_replace(line, regex(R"(\[<((?:(?!\[<|>\]).)*)>\])"), "<span style=\"background-color: green\">$1</span>");   
 }
+
+void HTMLConverter::parseTable(string& line) {
+    // Detect table start
+    if (line.rfind(":::table", 0) == 0) {
+        inTable = true;
+        inCols = true;
+        inQuotes = false;
+
+        // Replace :::table with <table>
+        line.replace(0, 9, "<table>");
+
+        // Remove cols=" part
+        int colsStart = line.find("cols=\"");
+        if (colsStart != -1) {
+            // Remove only cols="
+            line.replace(colsStart, 6, "");
+
+            // Remove only the matching closing quote
+            int closingQuote = line.find('"', colsStart);
+            if (closingQuote != -1) {
+                line.erase(closingQuote, 1);
+            }
+        }
+
+        // Remove ending :::";
+        line.replace(line.find(":::\";"), 5, "</table>");
+
+        // Begin parsing cells
+        bool headerRow = true;
+        int cellCount = 0;
+
+        for (int i = 0; i < line.length(); i++) {
+
+            // Opening bracket = start cell
+            if (line[i] == '[') {
+                inQuotes = true;
+
+                if (headerRow) {
+                    line.replace(i, 1, "<th>");
+                } else {
+                    line.replace(i, 1, "<td>");
+                }
+            }
+
+            // Closing bracket = end cell
+            else if (line[i] == ']' && inQuotes) {
+                inQuotes = false;
+
+                if (headerRow) {
+                    line.replace(i, 1, "</th>");
+                } else {
+                    line.replace(i, 1, "</td>");
+                }
+
+                cellCount++;
+
+                // After 4 header cells → end header row
+                if (headerRow && cellCount == 4) {
+                    line.insert(i + 5, "</tr><tr>");
+                    headerRow = false;
+                    cellCount = 0;
+                }
+
+                // Every 4 data cells → new row
+                else if (!headerRow && cellCount == 4) {
+                    line.insert(i + 5, "</tr><tr>");
+                    cellCount = 0;
+                }
+            }
+        }
+
+        // Wrap rows properly
+        line.insert(line.find("<th>"), "<tr>");
+        line.replace(line.rfind("</tr><tr>"), 9, "</tr>");
+    }
+}
+
 void HTMLConverter::programOutputParse(string& line){
     if(line.rfind("```program-output", 0) == 0){
         inProgOutput = true;
@@ -256,6 +335,7 @@ void HTMLConverter::programOutputParse(string& line){
         inProgOutput = false;
     }
 }
+
 void HTMLConverter::getHighlighting(string highlighting) {
     int pos = 0;
     int len = highlighting.length();

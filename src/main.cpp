@@ -317,6 +317,16 @@ TEST_CASE("Inline")
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
     }
 
+    SECTION("TableTesting"){
+        string md = ":::table cols=\"[*Feature*][Not Started][Doing][Done]\"[Basic Markdown][✓][][][Extended Code Markdown][✗][✓][][Table Markdown][✗][✗][✓]:::\";";
+        writeToFile("./tests/MarkdownFile.md", md);
+        HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
+
+        string desiredOutput = "<table><tr><th><em>Feature</em></th><th>Not Started</th><th>Doing</th><th>Done</th></tr><tr><td>Basic Markdown</td><td>✓</td><td></td><td></td></tr><tr><td>Extended Code Markdown</td><td>✗</td><td>✓</td><td></td></tr><tr><td>Table Markdown</td><td>✗</td><td>✗</td><td>✓</td></tr></table>";
+        string output = getFileContent("./tests/HTMLFile.html");
+
+        REQUIRE(output == desiredOutput);
+    }
     HTMLConverter("/workspaces/ProfMark_Down/tests/acceptanceTest.md","/workspaces/ProfMark_Down/tests/acceptanceTest.html");
     
 }
