@@ -240,7 +240,7 @@ void HTMLConverter::lists(string& line){
     //Handle image case
     line = regex_replace(line, regex(R"(!\[([^\]]*)\]\(([^\)]+)\))"), "<img src=\"$2\" alt=\"$1\">");
     //Hand link case
-    line = regex_replace(line, regex(R"(\[([^\]]+)\]\(([^)]+)\))"), "<a href=\"$2\">$1</a>");
+    line = regex_replace(line, regex(R"(\[([^\]]+)\]\(([^)]+)\))"), "<a href=\"$2\" target=\"_blank\" rel=\"noopener noreferrer\">$1</a>");
 }
 void HTMLConverter::highlightCase(string& line) {
     //Handle highlight case

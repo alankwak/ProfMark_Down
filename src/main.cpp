@@ -113,7 +113,7 @@ TEST_CASE("Inline")
         HTMLConverter testCase("./tests/MarkdownFile.md", "./tests/HTMLFile.html");
         string output = getFileContent("./tests/HTMLFile.html");
 
-        string desiredOutput = "This is a <a href=\"https://google.com\">link</a>.";
+        string desiredOutput = "This is a <a href=\"https://google.com\" target=\"_blank\" rel=\"noopener noreferrer\">link</a>.";
 
         REQUIRE(output == htmlHead + desiredOutput + htmlTail);
     }
