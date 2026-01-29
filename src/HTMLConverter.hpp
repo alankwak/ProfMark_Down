@@ -53,17 +53,11 @@ class HTMLConverter{
         void lists(string& line);
         int paraCount = 1;
         void parsePara(string& line);
-        void parseTable(string& line);
         string parseInline(string& line);
         bool inListOrd = false;
         bool inListUn = false;
         int ordList = 1;
         bool inProgOutput = false;
-        bool inTable = false;
-        bool inCols = false;
-        bool inQuotes = false;
-        bool inBrackets = false;
-        int tableRowCount = 0;
         void programOutputParse(string& line);
 
         void getHighlighting(string highlighting);
